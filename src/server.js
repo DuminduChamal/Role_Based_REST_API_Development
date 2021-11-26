@@ -4,7 +4,6 @@ const cors = require("cors");
 var bcrypt = require("bcryptjs");
 const constValues = require("./api/helpers/constant")
 
-
 const app = express();
 
 var corsOptions = {
@@ -49,34 +48,29 @@ async function initial() {
     userID: 1,
     username: "admin",
     password: bcrypt.hashSync('1234',8),
-    // userType: userRole.ADMIN
     userType: constValues.userRoles.ADMIN
   });
 
- 
+  // const createdClass =  await Class.create({
+  //   className: "a",
+  // })
 
-  const createdClass =  await Class.create({
-    className: "a",
-  })
+  // await User.create({
+  //   userID: 2,
+  //   username: "dumi",
+  //   password: bcrypt.hashSync('1234',8),
+  //   // userType: userRole.ADMIN
+  //   userType: constValues.userRoles.STUDENT,
+  //   classID: createdClass.classID
+  // });
 
-  await User.create({
-    userID: 2,
-    username: "dumi",
-    password: bcrypt.hashSync('1234',8),
-    // userType: userRole.ADMIN
-    userType: constValues.userRoles.STUDENT,
-    classID: createdClass.classID
-  });
-
-  const mod1 = await Module.create({moduleName: constValues.modules.FACE_DETECT})
+  // const mod1 = await Module.create({moduleName: constValues.modules.FACE_DETECT})
   
-  const mod2 = await Module.create({moduleName: constValues.modules.IMAGE_PROCESSING})
+  // const mod2 = await Module.create({moduleName: constValues.modules.IMAGE_PROCESSING})
   
-  const mod3 =  await Module.create({moduleName: constValues.modules.VOICE_REC})
+  // const mod3 =  await Module.create({moduleName: constValues.modules.VOICE_REC})
 
-  await createdClass.addModule(mod1)
-  await createdClass.addModule(mod2)
-  // const router = require('./api/routes');
-  // app.use('/',router);
+  // await createdClass.addModule(mod1)
+  // await createdClass.addModule(mod2)
 
 }
