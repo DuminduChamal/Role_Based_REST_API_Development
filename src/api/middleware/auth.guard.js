@@ -64,7 +64,7 @@ VerifyPermission = async (req, res, next) => {
 };
 
 isAdmin = (req, res,next) => {
-	if(userType!=="admin"){
+	if(req.user.userRole!=="admin"){
 		res.status(401).send({
 			message: "Unauthorized Access"
 		});
@@ -75,7 +75,7 @@ isAdmin = (req, res,next) => {
 };
 
 isInstuctor = (req, res,next) => {
-	if(userType!=="instructor"){
+	if(req.user.userRole!=="instructor"){
 		res.status(401).send({
 			message: "Unauthorized Access"
 		});

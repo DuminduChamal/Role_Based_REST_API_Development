@@ -39,7 +39,7 @@ exports.getModules = async (req, res) => {
 };
 
 exports.executeModule = async (req, res) => {
-    console.log(req.params.moduleName)
+    // console.log(req.params.moduleName)
     const result = await Modules.findAll({})
     const modules = result.map(res => {
         return res.moduleName
