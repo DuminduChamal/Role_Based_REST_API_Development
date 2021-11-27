@@ -62,7 +62,6 @@ exports.createClass = async (req, res) => {
             // studentNameList: req.body.studentNameList
         })
 
-        // TODO: genereate correctly
         const password = generator.generate({
             length: 10,
             numbers: true
