@@ -13,23 +13,80 @@ module.exports = function (app) {
     );
     next();
   });
- 
-   
-  /** 
+
+  /**
    * @swagger
-   * /api/auth/login:
-   *  post:
-   *    description: Login
-   *    parameters:
-   *      - name: Requesed body
-   *        description: username and password
-   *        in: body
-   *        required: true
-   *        type: string
-   *    responses:
-   *      200:
-   *        description: Success
-   */
+   * components:
+   *  schemas:
+   *    User:
+   *      type: object
+   *      required:
+   *        - username
+   *        - password
+   *      properties:
+   *        username:
+   *          type: string
+   *          description: Username of the user
+   *        password:
+   *          type: string
+   *          description: Password of the user 
+   *      example:
+   *        username: admin
+   *        password: '1234'
+   *    
+   *    Instructor:
+   *      type: object
+   *      required:
+   *        - username
+   *      properties:
+   *        username:
+   *          type: string
+   *          description: Username of the user
+   *      example:
+   *        username: instructor
+   * 
+   *    Class:
+   *      type: object
+   *      required:
+   *        - className
+   *        - moduleList
+   *        - studentNameList
+   *      properties:
+   *        username:
+   *          type: string
+   *          description: Username of the user
+   *        moduleList:
+   *          type: Array
+   *          description: Array of selected modules
+   *        studentNameList:
+   *          type: Array
+   *          description: Array of student names
+   *      example:
+   *        className: class1
+   *        moduleList: [IMAGE_PROCESSING, VOICE_REC]
+   *        studentNameList: [Nimal, Kamal, Hashan]
+   *    
+   */ 
+
+  
+   
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: User login
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returning the access token
+ *       500:
+ *         description: Some server error
+ */
   app.post("/api/auth/login", controller.login);
 
 
@@ -38,46 +95,54 @@ module.exports = function (app) {
    * /api/instructors:
    *  post:
    *    description: Create instructor
+   *    requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Instructor'
    *    parameters:
    *      - name: x-access-token
    *        description: x-access-token of the admin
    *        in: header
    *        required: true
    *        type: string
-   *      - name: Requested body
-   *        description: Instructor name as username
-   *        in: body
-   *        required: true
-   *        type: string
    *    responses:
    *      200:
    *        description: Success
+   *      500:
+   *         description: Some server error
    */
   app.post("/api/instructors", authGuard.verifyToken, authGuard.isAdmin, adminController.createInstructor);
 
 
-  /**
+   /**
    * @swagger
    * /api/classes:
    *  post:
    *    description: Create class
+   *    requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Class'
    *    parameters:
    *      - name: x-access-token
-   *        description: x-access-token of the user
+   *        description: x-access-token of the instructor
    *        in: header
-   *        required: true
-   *        type: string
-   *      - name: Requsted body
-   *        description: Class details as className, moduleList, and studentNameList
-   *        in: body
    *        required: true
    *        type: string
    *    responses:
    *      200:
    *        description: Success
+   *      500:
+   *         description: Some server error
    */
   app.post("/api/classes", authGuard.verifyToken, authGuard.isInstuctor, classController.createClass);
 
+
+  
   /**
    * @swagger
    * /api/modules:
@@ -85,7 +150,7 @@ module.exports = function (app) {
    *    description: Get modules by the user role
    *    parameters:
    *      - name: x-access-token
-   *        description: x-access-token of the useR
+   *        description: x-access-token of the user
    *        in: header
    *        required: true
    *        type: string

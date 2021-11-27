@@ -40,7 +40,8 @@ exports.getModules = async (req, res) => {
 
 exports.executeModule = async (req, res) => {
     // console.log(req.params.moduleName)
-    const result = await Modules.findAll({})
+    try{
+        const result = await Modules.findAll({})
     const modules = result.map(res => {
         return res.moduleName
     })
@@ -49,7 +50,13 @@ exports.executeModule = async (req, res) => {
         if(req.params.moduleName === module){
             res.status(200).send(`Hello Module ${req.params.moduleName}`);
         }
+        res.status(400).send("Module not found!");
     }
-    res.status(400).send("Module not found!");
+    }catch (e) {
+        res.status(500).send({ 
+            success: false,
+            message: e.toString()
+        });
+    }
     
 };

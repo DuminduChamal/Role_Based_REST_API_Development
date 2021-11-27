@@ -47,6 +47,7 @@ require('./api/routes/auth.routes')(app);
 
 const swaggerOptions = {
   swaggerDefinition: {
+    openapi:"3.0.0",
     info:{
       title: 'Role Based REST API Development',
       version: '1.0.0'
