@@ -94,7 +94,7 @@ module.exports = function (app) {
    * @swagger
    * /api/instructors:
    *  post:
-   *    description: Create instructor
+   *    summary: Create instructor
    *    requestBody:
    *       required: true
    *       content:
@@ -109,9 +109,9 @@ module.exports = function (app) {
    *        type: string
    *    responses:
    *      200:
-   *        description: Success
+   *        description: Successfully added an Instructor and returning the username and password for the instructor
    *      500:
-   *         description: Some server error
+   *        description: Some server error
    */
   app.post("/api/instructors", authGuard.verifyToken, authGuard.isAdmin, adminController.createInstructor);
 
@@ -120,7 +120,7 @@ module.exports = function (app) {
    * @swagger
    * /api/classes:
    *  post:
-   *    description: Create class
+   *    summary: Create class
    *    requestBody:
    *       required: true
    *       content:
@@ -135,7 +135,7 @@ module.exports = function (app) {
    *        type: string
    *    responses:
    *      200:
-   *        description: Success
+   *        description: Successfully added a class and returning the password for all the inserted students
    *      500:
    *         description: Some server error
    */
@@ -147,7 +147,7 @@ module.exports = function (app) {
    * @swagger
    * /api/modules:
    *  get:
-   *    description: Get modules by the user role
+   *    summary: Get modules by the user role
    *    parameters:
    *      - name: x-access-token
    *        description: x-access-token of the user
@@ -156,7 +156,7 @@ module.exports = function (app) {
    *        type: string
    *    responses:
    *      200:
-   *        description: Success
+   *        description: Success and returning the modules of the user
    */
   app.get("/api/modules", authGuard.verifyToken, moduleController.getModules);
 
@@ -165,7 +165,7 @@ module.exports = function (app) {
    * @swagger
    * /api/modules/{moduleName}:
    *  get:
-   *    description: Executes modules by the user role
+   *    summary: Executes modules by the user role
    *    parameters:
    *      - name: x-access-token
    *        description: x-access-token of the user
@@ -179,7 +179,7 @@ module.exports = function (app) {
    *        type: string
    *    responses:
    *      200:
-   *        description: Success
+   *        description: Success and executing the relevent module as per user access to modules
    */
   app.get("/api/modules/:moduleName", authGuard.verifyToken, authGuard.VerifyPermission, moduleController.executeModule);
 };
