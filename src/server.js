@@ -4,6 +4,9 @@ const cors = require("cors");
 var bcrypt = require("bcryptjs");
 const constValues = require("./api/helpers/constant")
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
 const app = express();
 
 var corsOptions = {
@@ -42,6 +45,20 @@ db.sequelize.sync({force: true}).then(() => {
 
 require('./api/routes/auth.routes')(app);
 
+const swaggerOptions = {
+  swaggerDefinition: {
+    info:{
+      title: 'Role Based REST API Development',
+      version: '1.0.0'
+    }
+  },
+  apis: ['./api/routes/*.js'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+
 
 async function initial() {
   await User.create({
@@ -64,11 +81,11 @@ async function initial() {
   //   classID: createdClass.classID
   // });
 
-  // const mod1 = await Module.create({moduleName: constValues.modules.FACE_DETECT})
+  const mod1 = await Module.create({moduleName: constValues.modules.FACE_DETECT})
   
-  // const mod2 = await Module.create({moduleName: constValues.modules.IMAGE_PROCESSING})
+  const mod2 = await Module.create({moduleName: constValues.modules.IMAGE_PROCESSING})
   
-  // const mod3 =  await Module.create({moduleName: constValues.modules.VOICE_REC})
+  const mod3 =  await Module.create({moduleName: constValues.modules.VOICE_REC})
 
   // await createdClass.addModule(mod1)
   // await createdClass.addModule(mod2)
