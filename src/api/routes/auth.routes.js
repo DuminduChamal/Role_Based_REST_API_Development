@@ -110,6 +110,8 @@ module.exports = function (app) {
    *    responses:
    *      200:
    *        description: Successfully added an Instructor and returning the username and password for the instructor
+   *      401:
+   *        description: Unauthorized access by a different user type
    *      500:
    *        description: Some server error
    */
@@ -136,6 +138,8 @@ module.exports = function (app) {
    *    responses:
    *      200:
    *        description: Successfully added a class and returning the password for all the inserted students
+   *      401:
+   *        description: Unauthorized access by a different user type
    *      500:
    *         description: Some server error
    */
@@ -157,6 +161,10 @@ module.exports = function (app) {
    *    responses:
    *      200:
    *        description: Success and returning the modules of the user
+   *      401:
+   *        description: Unauthorized access by a different user type
+   *      500:
+   *        description: Some server error
    */
   app.get("/api/modules", authGuard.verifyToken, moduleController.getModules);
 
@@ -180,6 +188,10 @@ module.exports = function (app) {
    *    responses:
    *      200:
    *        description: Success and executing the relevent module as per user access to modules
+   *      401:
+   *        description: Unauthorized access by a different user type
+   *      500:
+   *        description: Some server error
    */
   app.get("/api/modules/:moduleName", authGuard.verifyToken, authGuard.VerifyPermission, moduleController.executeModule);
 };
